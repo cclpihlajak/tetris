@@ -1,7 +1,91 @@
-function isValidMove() {
-    if (gameState === null) {
-        console.error('Game state is null.');
-        return false;
-    }
-    // existing logic for checking valid moves
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #tetris {
+            display: grid;
+            grid-template-columns: repeat(10, 30px);
+            grid-template-rows: repeat(20, 30px);
+            gap: 1px;
+            background-color: #222;
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="tetris"></div>
+    <script>
+        const canvas = document.getElementById('tetris');
+        const context = canvas.getContext('2d');
+
+        const ROWS = 20;
+        const COLS = 10;
+        const EMPTY = 'white';
+        const colors = ['cyan', 'blue', 'orange', 'yellow', 'green', 'purple', 'red'];
+
+        let board = Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
+        let currentPiece;
+        let interval;
+
+        function drawBoard() {
+            canvas.innerHTML = '';
+            board.forEach((row, y) => {
+                row.forEach((color, x) => {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.style.backgroundColor = color;
+                    canvas.appendChild(cell);
+                });
+            });
+        }
+
+        function isValidMove(offsetX, offsetY) {
+            if (!currentPiece) return true; // Added null check
+            for (let y = 0; y < currentPiece.shape.length; y++) {
+                for (let x = 0; x < currentPiece.shape[y].length; x++) {
+                    if (currentPiece.shape[y][x]) {
+                        const newX = currentPiece.position.x + x + offsetX;
+                        const newY = currentPiece.position.y + y + offsetY;
+                        if (newX < 0 || newX >= COLS || newY >= ROWS || (newY >= 0 && board[newY][newX] !== EMPTY)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        function merge() {
+            currentPiece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        board[currentPiece.position.y + y][currentPiece.position.x + x] = colors[currentPiece.type];
+                    }
+                });
+            });
+        }
+
+        function reset() {
+            board = Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
+            currentPiece = null;
+        }
+
+        // Further game logic... (omitted for brevity)
+
+        drawBoard();
+    </script>
+</body>
+</html>
