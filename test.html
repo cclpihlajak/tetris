@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Test Suite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .test-section {
+            background: #16213e;
+            border: 2px solid #4a4a7a;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-case {
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #888;
+            background: #0f0f1e;
+        }
+        .test-case.pass {
+            border-left-color: #4CAF50;
+        }
+        .test-case.fail {
+            border-left-color: #f44336;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .test-result {
+            font-size: 14px;
+            color: #aaa;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #test-results {
+            margin-top: 20px;
+        }
+        .summary {
+            text-align: center;
+            font-size: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #0f0f1e;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tetris Game - Manual Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Test Instructions</h2>
+        <p>This is a manual test suite for the Tetris game. Follow the instructions below to verify each feature:</p>
+        <button onclick="runTests()">Open Tetris Games and Run Tests</button>
+    </div>
+
+    <div id="test-results">
+        <div class="test-section">
+            <h2>Test Cases</h2>
+            
+            <div class="test-case">
+                <div class="test-title">1. Game Initialization</div>
+                <div class="test-result">
+                    ✓ Verify that tetris.html loads without errors<br>
+                    ✓ Canvas should be visible with proper dimensions (240x400)<br>
+                    ✓ Score panel should show initial values (Score: 0, Level: 1, Lines: 0)<br>
+                    ✓ A tetromino piece should appear at the top
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">2. Movement Controls</div>
+                <div class="test-result">
+                    ✓ Press ← (Left Arrow) - Piece should move left<br>
+                    ✓ Press → (Right Arrow) - Piece should move right<br>
+                    ✓ Press ↓ (Down Arrow) - Piece should move down faster<br>
+                    ✓ Pieces should not move through walls or other pieces
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">3. Rotation</div>
+                <div class="test-result">
+                    ✓ Press ↑ (Up Arrow) - Piece should rotate clockwise<br>
+                    ✓ Rotation should handle wall kicks (adjusting position if needed)<br>
+                    ✓ Piece should not rotate if blocked
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">4. Hard Drop</div>
+                <div class="test-result">
+                    ✓ Press Space - Piece should instantly drop to the bottom<br>
+                    ✓ Piece should lock in place immediately
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">5. Line Clearing</div>
+                <div class="test-result">
+                    ✓ Complete a horizontal line - Line should disappear<br>
+                    ✓ Score should increase based on lines cleared<br>
+                    ✓ Lines counter should increment<br>
+                    ✓ Multiple lines should clear simultaneously
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">6. Scoring System</div>
+                <div class="test-result">
+                    ✓ 1 line cleared: +100 points × level<br>
+                    ✓ 2 lines cleared: +300 points × level<br>
+                    ✓ 3 lines cleared: +500 points × level<br>
+                    ✓ 4 lines cleared: +800 points × level
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">7. Level Progression</div>
+                <div class="test-result">
+                    ✓ Level should increase every 10 lines cleared<br>
+                    ✓ Game speed should increase with level<br>
+                    ✓ Level display should update correctly
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">8. Pause Functionality</div>
+                <div class="test-result">
+                    ✓ Press P - Game should pause<br>
+                    ✓ "PAUSED" message should appear<br>
+                    ✓ Press P again - Game should resume<br>
+                    ✓ Pieces should not move while paused
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">9. Game Over</div>
+                <div class="test-result">
+                    ✓ When pieces stack to the top, game should end<br>
+                    ✓ "GAME OVER" screen should appear<br>
+                    ✓ Final score should be displayed<br>
+                    ✓ "PLAY AGAIN" button should be visible
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">10. Restart Functionality</div>
+                <div class="test-result">
+                    ✓ Click "PLAY AGAIN" button<br>
+                    ✓ Game should reset to initial state<br>
+                    ✓ Score, level, and lines should reset to 0, 1, 0<br>
+                    ✓ New game should start immediately
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">11. Visual Elements</div>
+                <div class="test-result">
+                    ✓ Pieces should have different colors<br>
+                    ✓ Blocks should have visual highlights<br>
+                    ✓ Canvas should have proper border and background<br>
+                    ✓ UI should be readable and well-organized
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-title">12. Collision Detection</div>
+                <div class="test-result">
+                    ✓ Pieces should stop at the bottom<br>
+                    ✓ Pieces should stack on top of each other<br>
+                    ✓ Pieces should not overlap<br>
+                    ✓ Side walls should block movement
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Comparison Test: qwen.html vs tetris.html</h2>
+        <p>Both games should have the following features:</p>
+        <ul>
+            <li>✓ Complete game loop with automatic dropping</li>
+            <li>✓ Full movement and rotation controls</li>
+            <li>✓ Line clearing mechanism</li>
+            <li>✓ Score tracking and level progression</li>
+            <li>✓ Game over detection</li>
+            <li>✓ Pause functionality</li>
+            <li>✓ Visual feedback and styling</li>
+        </ul>
+        <p><strong>Differences:</strong></p>
+        <ul>
+            <li>qwen.html: More advanced features (start screen, next piece preview, ghost piece)</li>
+            <li>tetris.html: Simpler, more educational implementation with core features</li>
+        </ul>
+    </div>
+
+    <div class="summary">
+        <h3>Testing Complete!</h3>
+        <p>Open tetris.html in a browser and verify all test cases above.</p>
+        <p>Open qwen.html to compare with the full-featured version.</p>
+    </div>
+
+    <script>
+        function runTests() {
+            // Open both games in new windows
+            window.open('tetris.html', 'tetris_simple', 'width=800,height=600');
+            window.open('qwen.html', 'tetris_advanced', 'width=1200,height=800');
+            alert('Both Tetris games opened! Follow the test cases above to verify functionality.');
+        }
+    </script>
+</body>
+</html>
