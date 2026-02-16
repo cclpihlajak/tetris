@@ -229,9 +229,15 @@
     <script>
         function runTests() {
             // Open both games in new windows
-            window.open('tetris.html', 'tetris_simple', 'width=800,height=600');
-            window.open('qwen.html', 'tetris_advanced', 'width=1200,height=800');
-            alert('Both Tetris games opened! Follow the test cases above to verify functionality.');
+            const tetrisWindow = window.open('tetris.html', 'tetris_simple', 'width=800,height=600');
+            const qwenWindow = window.open('qwen.html', 'tetris_advanced', 'width=1200,height=800');
+            
+            // Check if windows opened successfully
+            if (tetrisWindow && qwenWindow) {
+                alert('Both Tetris games opened! Follow the test cases above to verify functionality.');
+            } else {
+                alert('Could not open game windows. Please check if tetris.html and qwen.html exist, or if popups are blocked.');
+            }
         }
     </script>
 </body>

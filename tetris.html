@@ -200,6 +200,9 @@
         }
 
         function drawBlock(x, y, colorIndex) {
+            // Skip if colorIndex is invalid or represents empty space
+            if (!colorIndex || colorIndex < 1 || colorIndex >= colors.length) return;
+            
             context.fillStyle = colors[colorIndex];
             context.fillRect(x * grid + 1, y * grid + 1, grid - 2, grid - 2);
             
@@ -404,6 +407,8 @@
             lastTime = time;
             
             dropCounter += deltaTime;
+            // Drop interval decreases by 100ms per level, with a floor of 100ms at level 10+
+            // This provides a good difficulty curve while remaining playable
             const dropInterval = Math.max(100, 1000 - (level - 1) * 100);
             
             if (dropCounter > dropInterval) {
